@@ -22,6 +22,7 @@ def main():
         keys_pressed = pygame.key.get_pressed()
         paddle.movement(keys_pressed)
         paddle2.movement(keys_pressed)
+        ball.movement(paddle, paddle2)
         
 
 main()

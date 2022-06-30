@@ -25,6 +25,9 @@ class Game():
         pygame.draw.rect(self.WIN, self.WHITE, paddle2.pad)
         pygame.display.update()
 
+    def newRound(self):
+        pass
+
 class Paddle():
     PADDLE_WIDTH = 25
     PADDLE_LENGTH = 300
@@ -43,9 +46,31 @@ class Paddle():
 
 class Ball():
     SIZE = 25
+    VEL = 5
 
     def __init__(self, x, y, game):
         self.ball = pygame.Rect(x, y, self.SIZE, self.SIZE)
+        self.game = game
 
     def movement(self, paddle, paddle2):
+        if self.ball.colliderect(paddle.pad)  or self.ball.colliderect(paddle2.pad):
+            self.VEL *= -1
+
+        if self.ball.x < 0:
+            self.VEL *= -1
+            self.game.newRound()
+        
+        if self.ball.x > self.game.WIDTH:
+            self.VEL *= -1
+            self.game.newRound()
+
+        self.ball.x += self.VEL
+
+    def bottom_hit():
+        pass
+
+    def top_hit():
+        pass
+
+    def middle_hit():
         pass
