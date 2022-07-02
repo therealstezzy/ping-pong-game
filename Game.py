@@ -25,8 +25,10 @@ class Game():
         pygame.draw.rect(self.WIN, self.WHITE, paddle2.pad)
         pygame.display.update()
 
-    def newRound(self):
-        pass
+    def newRound(self, ball, paddle, paddle2):
+        ball.x = self.WIDTH//2
+        ball.y = self.HEIGHT//2
+        #ball.VEL *= -1
 
 class Paddle():
     PADDLE_WIDTH = 25
@@ -47,30 +49,51 @@ class Paddle():
 class Ball():
     SIZE = 25
     VEL = 5
+    direction_angle = 0
 
     def __init__(self, x, y, game):
         self.ball = pygame.Rect(x, y, self.SIZE, self.SIZE)
         self.game = game
 
     def movement(self, paddle, paddle2):
-        if self.ball.colliderect(paddle.pad)  or self.ball.colliderect(paddle2.pad):
+        # touching paddle
+        if self.ball.colliderect(paddle.pad) or self.ball.colliderect(paddle2.pad):
+            self.VEL *= -1
+            if(self.ball.y < paddle.pad.y + 200 and self.ball.y > paddle.pad.y + 100):
+                self.direction_angle = 0
+            
+            if(self.ball.y < paddle.pad.y + 100 and self.ball.y > paddle.pad.y):
+                self.direction_angle = 5
+
+            if(self.ball.y < paddle.pad.y + 300 and self.ball.y > paddle.pad.y + 200):
+                self.direction_angle = -5
+
+        # touching border [top and bottom]
+        if self.ball.y < 0:
+            self.direction_angle *= -1
             self.VEL *= -1
 
-        if self.ball.x < 0:
-            self.VEL *= -1
-            self.game.newRound()
+        if self.ball.y > self.game.HEIGHT:
+            self.direction_angle *= -1
         
-        if self.ball.x > self.game.WIDTH:
+        # touching border [left and right]
+        if self.ball.x < 0 or self.ball.x > self.game.WIDTH:
+            self.game.newRound(self, paddle, paddle2)
+        
+        if self.ball.y < 0:
             self.VEL *= -1
-            self.game.newRound()
 
         self.ball.x += self.VEL
+        self.ball.y += self.direction_angle
 
-    def bottom_hit():
+    def bottom_hit(self, paddle):
         pass
 
-    def top_hit():
+    def top_hit(self, paddle):
         pass
 
-    def middle_hit():
+    def middle_hit(self, paddle):
+        pass
+
+    def detect_movement(self, paddle):
         pass

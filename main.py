@@ -6,7 +6,7 @@ def main():
     LENGTH = 1000
 
     game = Game("Ping Pong", WIDTH, LENGTH)
-    paddle = Paddle(25, LENGTH//2, game)
+    paddle = Paddle(25, LENGTH//2 , game) # 25, length//2
     paddle2 = Paddle(WIDTH - 50, LENGTH//2, game)
     ball = Ball(WIDTH//2, LENGTH//2, game)
 
@@ -23,6 +23,8 @@ def main():
         paddle.movement(keys_pressed)
         paddle2.movement(keys_pressed)
         ball.movement(paddle, paddle2)
+        #ball.detect_movement(paddle, paddle2)
+
         
 
 main()
